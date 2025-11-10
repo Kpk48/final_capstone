@@ -1,0 +1,151 @@
+@import "tailwindcss";
+
+:root {
+  --background: #0b0b0f; /* deep near-black */
+  --foreground: #ededed;
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d5ff;
+  --purple-300: #d8b4fe;
+  --purple-400: #c084fc;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
+  --purple-700: #7e22ce;
+  --purple-800: #6b21a8;
+  --purple-900: #581c87;
+  --brand-start: #7c3aed; /* purple-600 */
+  --brand-mid: #6d28d9;   /* purple-700 */
+  --brand-end: #000000;   /* black */
+  --ring: 0 0% 100%;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}
+
+/* Global background: layered purple→black gradient with a subtle grid */
+html, body {
+  min-height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 90% -10%, rgba(124, 58, 237, 0.12), transparent 60%),
+    radial-gradient(900px 500px at 10% 120%, rgba(217, 70, 239, 0.10), transparent 60%),
+    linear-gradient(145deg, var(--brand-start) 0%, var(--brand-mid) 20%, var(--brand-end) 100%);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  background-attachment: fixed;
+}
+
+/* Subtle grid overlay using mask to keep it tasteful */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 60%, transparent 100%);
+  z-index: 0;
+}
+
+/* Utility: glass panel */
+.glass {
+  background-color: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/* Focus rings */
+:focus-visible {
+  outline: 2px solid color(display-p3 0.7 0.5 1 / 0.7);
+  outline-offset: 2px;
+}
+
+.page-shell {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 3rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 768px) {
+  .page-shell {
+    padding: 4rem 2.5rem;
+  }
+}
+
+.page-hero {
+  border-radius: 1.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.12);
+  padding: 2.5rem;
+  box-shadow: 0 25px 40px -20px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(24px);
+}
+
+@media (min-width: 768px) {
+  .page-hero {
+    padding: 3.5rem;
+  }
+}
+
+.page-title {
+  font-size: clamp(2.25rem, 1.8rem + 1.5vw, 3rem);
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  background: linear-gradient(90deg, rgba(196,181,253,0.95), rgba(244,114,182,0.95));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.page-subtitle {
+  font-size: clamp(0.95rem, 0.88rem + 0.2vw, 1.05rem);
+  color: rgba(212, 212, 216, 0.8);
+}
+
+.section-grid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .section-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.section-card {
+  border-radius: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.08);
+  padding: 1.75rem;
+  box-shadow: 0 20px 35px -18px rgba(124, 58, 237, 0.25);
+  backdrop-filter: blur(18px);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.section-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(168, 85, 247, 0.45);
+  box-shadow: 0 28px 38px -16px rgba(168, 85, 247, 0.35);
+}
