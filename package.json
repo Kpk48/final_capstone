@@ -6,7 +6,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p %PORT%",
-    "postinstall": "next build",
     "lint": "biome check",
     "format": "biome format --write"
   },
