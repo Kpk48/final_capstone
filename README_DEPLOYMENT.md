@@ -68,6 +68,37 @@ Copy the `.env.local` file to `.env.production` (or create it) and populate all 
      --set-env-vars-file=.env.production
    ```
 
+## Deploy via Cloud Run Connected Repository
+
+If you prefer Google Cloud to build and deploy automatically whenever you push to a branch:
+
+1. **Connect the repository**
+   - In the Cloud Console go to **Cloud Run → Create Service** (or select an existing service → **Edit & deploy new revision**).
+   - Choose **Source code** as the deployment source and click **Set up with Cloud Build**.
+   - Authorize GitHub/GitLab/Bitbucket access and select the repository & branch containing this project.
+
+2. **Configure the build**
+   - For a Docker-based build, pick **Dockerfile** and set the build context to the repo root (the `Dockerfile` lives alongside `package.json`).
+   - Cloud Build will run `docker build` automatically; supply build arguments for Supabase as needed:
+     ```text
+     NEXT_PUBLIC_SUPABASE_URL
+     NEXT_PUBLIC_SUPABASE_ANON_KEY
+     SUPABASE_SERVICE_ROLE_KEY
+     ```
+     Add placeholders or actual values in the build configuration (Cloud Console → Cloud Build triggers → Trigger details → Substitutions).
+
+3. **Set runtime configuration**
+   - In the Cloud Run service configuration, set container port to **8080**.
+   - Add environment variables matching your `.env.production` values under **Variables & Secrets**.
+
+4. **Trigger deployments**
+   - Enable automatic trigger so a push to the selected branch kicks off a Cloud Build → Cloud Run deployment pipeline.
+   - You can also trigger manually via **Cloud Build → Triggers → Run**.
+
+5. **Monitor builds & services**
+   - Use **Cloud Build → History** to check build logs.
+   - Use `gcloud run services describe skillsync --region us-central1` or the Cloud Run console for service status.
+
 ## Useful Commands
 
 - View recent revisions:
